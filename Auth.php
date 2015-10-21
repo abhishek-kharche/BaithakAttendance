@@ -106,7 +106,7 @@ class Auth
     }
 
     public function getMultiAttendance($start_day, $end_day){
-        $query = "	select first_name, last_name, city, state, country, relation, a.date, time(a.start_datetime), time(a.end_datetime)
+        $query = "	select first_name as 'First Name', last_name as 'Last Name', city as 'City', state as 'State', country as 'Country' , a.date as 'Date', time(a.start_datetime) as 'From', time(a.end_datetime) as 'To', relation as 'Relation'
                     from
                     (
                       select sub_user_id as user_id, r.first_name, r.last_name, d.city, d.state, d.country, concat(r.relation, ' of ', d.first_name, ' ', d.last_name) as relation
@@ -131,7 +131,7 @@ class Auth
 
     public function getSingleAttendance($day){
         $query = "
-                    select first_name, last_name, city, state, country, relation, a.date, time(a.start_datetime), time(a.end_datetime)
+                    select first_name as 'First Name', last_name as 'Last Name', city as 'City', state as 'State', country as 'Country' , a.date as 'Date', time(a.start_datetime) as 'From', time(a.end_datetime) as 'To', relation as 'Relation'
                     from
                     (
                       select sub_user_id as user_id, r.first_name, r.last_name, d.city, d.state, d.country, concat(r.relation, ' of ', d.first_name, ' ', d.last_name) as relation

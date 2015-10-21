@@ -1,6 +1,7 @@
 html {
-    background: #F0F0F0;
-    font-size: 10pt;
+    background: #EEE;
+    font-size: 12pt;
+    font-family: Arial;
 }
 label {
     display: block;
@@ -54,6 +55,12 @@ h1{
     box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.1),
     0px 1px 0px 0px rgba(250, 250, 250, 0.5) ;
 }
+
+.resultset{
+    max-width:1200px;
+    margin: 10px auto;
+}
+
 .loginform input[type=submit] {
     border: 1px solid rgba(0, 0, 0, 0.3);
     background: #64c8ef; /* Old browsers */

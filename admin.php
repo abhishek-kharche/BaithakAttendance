@@ -6,7 +6,8 @@
 <html>
 <title>Shree Baithak Upasthiti</title>
 <head>
-    <link rel="stylesheet" type="text/css" href="css/admin_style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="css/classic.css">
 
 </head>
 <body>
@@ -37,12 +38,14 @@
         <input type="date" name="start_date" id="sdate">
         <input type="date" name="end_date" id="edate">
         <input type="submit" value="Submit" id="date_submit">
+        <br>
 
 
 </section>
-
+<div id="columns" class="resultset"></div>
 <script src = "script/jquery-2.1.4.js"></script>
 <script type="text/javascript" src="script/adminpage.js"></script>
+<script src="js/jquery.columns.min.js"></script>
 
 </body>
 </html>

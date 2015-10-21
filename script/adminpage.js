@@ -25,30 +25,31 @@ $(document).ready(function(){
 
     $("#date_submit").on('click', function(){
        //alert("hello");
-        var single_date=$("#date").val();
+        var single_date="single_date="+$("#date").val();
         var start_date=$("#sdate").val();
         var end_date=$("#edate").val();
+        var date_range = "start_date="+start_date+"&end_date="+end_date;
+        //alert(date_range);
 
         //alert(single_date + " " + start_date + " " + end_date);
 
         if(start_date.length != 0 && end_date.length != 0){
             $.ajax({
                 type: "POST",
-                url: "../fetchresults.php",
-                data: {start_day: start_date, end_day: end_date},
+                url: "http://localhost:3003/my_project/fetchresults.php",
+                data: date_range,
                 success: function(data){
-                    // Print this data
-                    alert(data);
+                    $('#columns').columns({data:my_json});
                 }
             });
+
         }else if(single_date.length != 0){
             $.ajax({
                 type: "POST",
-                url: "../fetchresults.php",
-                data: {day: single_date},
+                url: "http://localhost:3003/my_project/fetchresults.php",
+                data: single_date,
                 success: function(data){
-                    // Print this data
-                    alert("Hello");
+                    $('#columns').columns({data:JSON.parse(data)});
                 }
             });
         }else{
