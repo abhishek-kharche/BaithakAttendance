@@ -2,7 +2,7 @@
 @session_start();
 // Redirect user back to index page if post body is empty
     if(!isset($_POST['media']))
-        header("location:index.html");
+        header("location:index.php");
 //print_r($_POST);
 
     require_once('Auth.php');

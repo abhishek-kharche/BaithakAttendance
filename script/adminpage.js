@@ -29,9 +29,6 @@ $(document).ready(function(){
         var start_date=$("#sdate").val();
         var end_date=$("#edate").val();
         var date_range = "start_date="+start_date+"&end_date="+end_date;
-        //alert(date_range);
-
-        //alert(single_date + " " + start_date + " " + end_date);
 
         if(start_date.length != 0 && end_date.length != 0){
             $.ajax({
@@ -39,7 +36,7 @@ $(document).ready(function(){
                 url: "http://localhost:3003/my_project/fetchresults.php",
                 data: date_range,
                 success: function(data){
-                    $('#columns').columns({data:my_json});
+                    $('#columns').columns({data:JSON.parse(data)});
                 }
             });
 
@@ -55,6 +52,19 @@ $(document).ready(function(){
         }else{
             alert("Please select a single day or date range")
         }
+    });
+    $("#show_all").on('click', function(){
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3003/my_project/fetchall.php",
+            success: function(data){
+                //alert(data);
+                $('#columns').columns({data:JSON.parse(data)});
+            }
+        });
+    });
+    $("#add_entry").on('click', function(){
+        window.location.href='addentry.php';
     });
 
 });

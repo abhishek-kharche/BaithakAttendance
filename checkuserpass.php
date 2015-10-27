@@ -25,7 +25,7 @@
     if ($result->num_rows == 0){
        // echo "
         //You typed invalid email address, please try again.";
-        header("Location: index.html"); /* Redirect browser */
+        header("Location: index.php"); /* Redirect browser */
         exit();
     } else {
         if($result->num_rows > 1){
@@ -39,7 +39,7 @@
             }
             else {
 
-                header("Location: index.html"); /* Redirect browser */
+                header("Location: index.php"); /* Redirect browser */
                 exit();
                 //echo "
                 //INCORRECT Password

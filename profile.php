@@ -1,11 +1,11 @@
 <?php
 @session_start();
     if(!isset($_COOKIE['loggedin'])){
-		header("location:index.html");
+		header("location:index.php");
 	}
-    echo "<h3> PHP List All Session Variables</h3>";
-    foreach ($_SESSION as $key=>$val)
-    echo $key." ".$val."<br/>";
+    //echo "<h3> PHP List All Session Variables</h3>";
+    //foreach ($_SESSION as $key=>$val)
+    //echo $key." ".$val."<br/>";
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,7 +16,8 @@
 </head>
 <body>
 <hr>
-<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>
+<!--<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>-->
+<h1><center><font size="8">Sample Project</font></center></h1>
 <hr>
 <strong>
 <span style="float: left;">
@@ -30,12 +31,13 @@
     <script src="script/profilepage.js"></script>
 </strong>
 <br><br>
+<!--
 <marquee loop="1" direction="left" behavior="slide">
     <font size="4" color="#000080">Notice:
     Shree sadguru aadnya .....
     </font>
 </marquee>
-
+-->
 <br><br>
 <section class="loginformprofile cf">
 
@@ -61,7 +63,7 @@
 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Date:
-                <input type="date" name="date">
+                <input type="date" data-date-inline-picker="true" name="date">
             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Time:
                 <input type="time" name="start_time">

@@ -1,5 +1,7 @@
 <?php
-
+if(!isset($_COOKIE['loggedin'])){
+    header("location:index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +14,8 @@
 </head>
 <body>
 <hr>
-<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>
+<!--<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>-->
+<h1><center><font size="8">Sample Project</font></center></h1>
 <hr>
 <strong>
 <span style="float: left;">
@@ -28,7 +31,13 @@
 <br><br>
 
 <section class="results cf">
-
+        <span style="float: left;">
+            <a href="profile.php">Back to Profile</a>
+        </span>
+        <span style="float: right;">
+            <a href="logout.php">Logout</a>
+        </span>
+        <div class="clear"></div>
         Shree Sadasya Upasthiti
         <br>
         Date:
@@ -38,8 +47,10 @@
         <input type="date" name="start_date" id="sdate">
         <input type="date" name="end_date" id="edate">
         <input type="submit" value="Submit" id="date_submit">
-        <br>
-
+        <br><br>
+        <input type="submit" value="Show All Sadasya" id="show_all">
+        &nbsp;&nbsp;&nbsp;
+        <input type="submit" value="Add/Edit Sadasya" id="add_entry">
 
 </section>
 <div id="columns" class="resultset"></div>

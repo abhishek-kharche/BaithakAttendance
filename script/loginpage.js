@@ -44,10 +44,10 @@ document.getElementById('Month').innerHTML=month[today.getMonth()];
 document.getElementById('Year').innerHTML=today.getFullYear();
 
 $(document).ready(function(){
-
-
-
-
-
+    /*$("#login_submit").on('click', function(){
+        var email=$("#email_id").val();
+        var password=$("#typed_password").val();
+        alert(email + " " + password);
+    });*/
 });
 
