@@ -1,16 +1,10 @@
 <?php
-@session_start();
-    if(isset($_COOKIE['loggedin'])){
-        if(isset($_SESSION['registered'])) {
-            header("location:profile.php");
-        }else{
-            header("location:register.php");
-        }
-	}
+
 ?>
+
 <!DOCTYPE html>
 <html>
-<title>Shree Baithak Upasthiti</title>
+<title>Forgot Password</title>
 
 <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -33,30 +27,36 @@
 </strong>
 <br>
 <div align="center">
-    <!--<font size="6" color="606860">INDEX USA Baithak Upasthiti</font>-->
+    <!--<font size="6" color="606860">FORGOT PASSWORD USA Baithak Upasthiti</font>-->
     <font size="6" color="606860">Sample Login</font>
 </div>
 
 <section class="loginform cf">
-    <form name="login" action="login.php" method="POST" accept-charset="utf-8">
         <ul>
             <li>
                 <label for="usermail" >Email</label>
-                <input type="email" id="email_id" name="usermail" placeholder="username@email.com" required autofocus>
+                <input type="email" id="email_id" placeholder="username@email.com" required autofocus>
             </li>
             <li>
-                <label for="password">Password</label>
-                <input type="password" id="typed_password" name="password" placeholder="password" required></li>
-            <li>
-                <input type="submit" value="Login" id ="login_submit">
-                <label for="forgotpwd"><a href="forgotpassword.php">Forgot Password?</a></label>
+                <input type="button" value="Send token" id ="send_token">
             </li>
+            <div class="clear"></div>
         </ul>
-    </form>
+        <ul><li><br></li>
+            <li>
+                <label for="token" >Token</label>
+                <input type="text" id="token" placeholder="token" required>
+            </li>
+            <li>
+                <input type="button" value="Reset Password" id ="token_submit">
+            </li>
+            <div class="clear"></div>
+        </ul>
+        <div id="resetPwd"></div>
 </section>
 
 <script src = "script/jquery-2.1.4.js"></script>
-<script src="script/loginpage.js"></script>
+<script src="script/forgotpassword.js"></script>
 
 </body>
 </html>

@@ -500,4 +500,132 @@ class Auth
 			die(mysql_error());
 		}
 	}
+
+	public function registerUser($uid, $first, $middle, $last, $city, $state, $country){
+		$query = "
+				insert into user_details
+				values($uid, '$first', '$middle', '$last', '$city', '$state', '$country');
+				";
+		$result = mysql_query($query);
+		if($result){
+					$newAddedUserQuery = "
+										select * from user_details
+										where user_id = $uid;
+										";
+					$newAddedUserResult = mysql_query($newAddedUserQuery);
+					if(!$newAddedUserResult)
+						die(mysql_error());
+					return $newAddedUserResult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function findUserByUser($uid){
+		$query = "
+				select * from user_details
+				where user_id = $uid;
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function findRelationByUser($suid){
+		$query = "
+				select * from relations
+				where sub_user_id = $suid;
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function updateUserByUser($uid, $first, $middle, $last, $city, $state, $country){
+		$query = "
+				update user_details
+				set first_name = '$first',
+				middle_name = '$middle',
+				last_name = '$last',
+				city = '$city',
+				state = '$state',
+				country = '$country'
+				where user_id = $uid;
+				";
+		$result = mysql_query($query);
+		if($result){
+			$returnQuery = "
+							select * from user_details
+							where user_id = $uid;
+							";
+			$returnresult = mysql_query($returnQuery);
+			if(!$returnresult)
+				die(mysql_error());
+			return $returnresult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function updateRelationByUser($suid, $first, $middle, $last, $relation){
+		$query = "
+				update relations
+				set first_name = '$first',
+				middle_name = '$middle',
+				last_name = '$last',
+				relation = '$relation'
+				where sub_user_id = $suid;
+				";
+		$result = mysql_query($query);
+		if($result){
+			$returnQuery = "
+							select * from relations
+							where sub_user_id = $suid;
+							";
+			$returnresult = mysql_query($returnQuery);
+			if(!$returnresult)
+				die(mysql_error());
+			return $returnresult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function generateToken($email){
+		$slt = $this->salt;
+		$query = "
+				insert into tokens
+				(username, token, timestamp)
+				values('$email', SHA1(concat(MD5(concat('$email', '$slt')), now())), now());
+				";
+		$result = mysql_query($query);
+		if($result){
+				$returnQuery = "
+						select * from tokens
+						where tid =
+						(select max(tid)
+						from tokens);
+						";
+				$returnResult = mysql_query($returnQuery);
+				if(!$returnResult)
+					die(mysql_error());
+				return $returnResult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function checkEmail($email){
+		$query = "
+				select count(*) as result
+				from user_auth
+				where username = '$email';
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
 }

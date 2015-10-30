@@ -31,7 +31,7 @@ if(!isset($_COOKIE['loggedin'])){
 </strong>
 <br>
 <div align="center">
-    <!--<font size="6" color="606860">USA Baithak Upasthiti</font>-->
+    <!--<font size="6" color="606860">ADD ENTRY USA Baithak Upasthiti</font>-->
     <font size="6" color="606860">Sample Login</font>
 </div>
 

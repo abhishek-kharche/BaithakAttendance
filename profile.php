@@ -3,9 +3,9 @@
     if(!isset($_COOKIE['loggedin'])){
 		header("location:index.php");
 	}
-    //echo "<h3> PHP List All Session Variables</h3>";
-    //foreach ($_SESSION as $key=>$val)
-    //echo $key." ".$val."<br/>";
+    echo "<h3> PHP List All Session Variables</h3>";
+    foreach ($_SESSION as $key=>$val)
+        echo $key." ".$val."<br/>";
 ?>
 <!DOCTYPE html>
 <html>
@@ -51,6 +51,10 @@
         "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" .
         "Location : " . $_SESSION["city"] . ", " . $_SESSION["state"] . ", " . $_SESSION["country"]
         ?>
+        <span style="float: right;">
+                <a href="updateUserDetailsByUser.php">Update Details</a>
+            </span>
+        <div class="clear"></div>
         <br>
     </font>
 </div>
@@ -60,7 +64,7 @@
             <input id="session_family" type="hidden" data='<?php echo $_SESSION["children"]; ?>' />
             <div id="family_div"></div>
             <hr>
-
+            <br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             Date:
                 <input type="date" data-date-inline-picker="true" name="date">
@@ -84,6 +88,8 @@
                 <a href="logout.php">Logout</a>
             </span>
             <div class="clear"></div>
+            <br>
+
         </font>
     </form>
 </section>
