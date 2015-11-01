@@ -16,8 +16,8 @@ if(!isset($_COOKIE['loggedin'])){
 
 <body onload="startTime()">
 <hr>
-<!--<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>-->
-<h1><center><font size="8">Sample Project</font></center></h1>
+<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>
+<!--<h1><center><font size="8">Sample Project</font></center></h1>-->
 <hr>
 <strong>
 <span style="float: left;">
@@ -31,8 +31,8 @@ if(!isset($_COOKIE['loggedin'])){
 </strong>
 <br>
 <div align="center">
-    <!--<font size="6" color="606860">UPDATE USA Baithak Upasthiti</font>-->
-    <font size="6" color="606860">Sample Login</font>
+    <font size="6" color="606860">UPDATE PROFILE</font>
+    <!--<font size="6" color="606860">Sample Login</font>-->
 </div>
 
 <section class="updateform cf">
@@ -44,8 +44,11 @@ if(!isset($_COOKIE['loggedin'])){
         <a href="logout.php"><b>Logout</b></a>
     </span>
     <div class="clear"></div><br>
-    <div id="updateDetails"></div>
-    -- Please update only the required fields..
+    Update only required fields, leave everything else as it is<br><br>
+    <div class="wrapper" id="updateDetails">
+    <br>
+    </div><div id="preferred_time"></div>
+    <br><hr><button id="passbutton">Change Password</button><div id="changepass"></div>
     <input id="session_family" type="hidden" data='<?php echo $_SESSION["children"]; ?>' />
     <div id="showChildren"></div>
     <div id="updateChildren"></div>

@@ -38,7 +38,7 @@ class Auth
 	}
 
 	public function getUserDetails($id){
-		$query = "	SELECT first_name, last_name, city, state, country
+		$query = "	SELECT first_name, last_name, city, state, country, preferred_time
 					FROM user_details
 					WHERE user_id = $id
 					";
@@ -76,9 +76,12 @@ class Auth
 					($id, '$date', '$start_time', '$end_time', '$media')
 					";
 		$result = mysql_query($query);
-		if(!$result)
+		if($result){
+			return "1";
+		}else {
 			die(mysql_error());
-		return $result;
+		}
+
 	}
 	public function updateAttendance($id, $date, $start_time, $end_time, $media){
 
@@ -92,9 +95,11 @@ class Auth
 					date = '$date'
 					";
 		$result = mysql_query($query);
-		if(!$result)
+		if($result){
+			return "1";
+		}else {
 			die(mysql_error());
-		return $result;
+		}
 	}
 
     public function debug_to_console( $data ) {
@@ -183,7 +188,7 @@ class Auth
 				";
 		$addQuery = "
 				insert into user_details
-				values((select max(user_id) from users), '$first', '$middle', '$last', '$city', '$state', '$country');
+				values((select max(user_id) from users), '$first', '$middle', '$last', '$city', '$state', '$country', null);
 				";
 		if(!isset($type)){
 			$type = 0;
@@ -504,7 +509,7 @@ class Auth
 	public function registerUser($uid, $first, $middle, $last, $city, $state, $country){
 		$query = "
 				insert into user_details
-				values($uid, '$first', '$middle', '$last', '$city', '$state', '$country');
+				values($uid, '$first', '$middle', '$last', '$city', '$state', '$country', null);
 				";
 		$result = mysql_query($query);
 		if($result){
@@ -622,6 +627,251 @@ class Auth
 				select count(*) as result
 				from user_auth
 				where username = '$email';
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function getInvalidSundays($year, $month){
+		$query = "
+				select date
+				from dates
+				where extract(YEAR from date) = '$year'
+				and extract(month from date) = '$month'
+				and status = 0
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function getAdditionalDays($year, $month){
+		$query = "
+				select date
+				from dates
+				where extract(YEAR from date) = '$year'
+				and extract(month from date) = '$month'
+				and status = 1
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function insertDateEntry($newDate, $val){
+		$query = "
+				insert into dates
+				values('$newDate', $val);
+				";
+		$result = mysql_query($query);
+		if($result){
+			$returnQuery = "
+						select count(*) as result
+						from dates
+						where date = '$newDate';
+						";
+			$returnResult = mysql_query($returnQuery);
+			if(!$returnResult)
+				die(mysql_error());
+			return $returnResult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function checkDateInDates($date){
+		$returnQuery = "
+						select count(*) as result
+						from dates
+						where date = '$date';
+						";
+		$returnResult = mysql_query($returnQuery);
+		if(!$returnResult)
+			die(mysql_error());
+		return $returnResult;
+		//return $returnQuery;
+	}
+
+	public function deleteDateEntry($deleteDate){
+		$query = "
+				delete from dates
+				where date = '$deleteDate'
+				";
+		$result = mysql_query($query);
+		if($result){
+			$returnQuery = "
+						select count(*) as result
+						from dates
+						where date = '$deleteDate';
+						";
+			$returnResult = mysql_query($returnQuery);
+			if(!$returnResult)
+				die(mysql_error());
+			return $returnResult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function checkNewValidDate($date){
+		$query = "
+				select date
+				from dates
+				where date > '$date'
+				and status = 1
+				and extract(year from date) = extract(year from '$date')
+				and extract(month from date) = extract(month from '$date');
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function getChildAttendance($uid, $date){
+		$query = "
+				select date, time(start_datetime) as starttime, time(end_datetime) as endtime, first_name, last_name
+				from attendance a
+				join relations r
+				on(a.user_id = r.sub_user_id)
+				where a.user_id = $uid
+				and date LIKE '$date%';
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function getUserAttendance($uid, $date){
+		$query = "
+				select date, time(start_datetime) as starttime, time(end_datetime) as endtime, first_name, last_name
+				from attendance a
+				join user_details ud
+				on(a.user_id = ud.user_id)
+				where a.user_id = $uid
+				and date LIKE '$date%';
+				";
+		$result = mysql_query($query);
+		if(!$result)
+			die(mysql_error());
+		return $result;
+	}
+
+	public function updatePreferredTime($uid, $time){
+		$query = "
+				update user_details
+				set preferred_time = '$time'
+				where user_id = $uid;
+				";
+		$result = mysql_query($query);
+		if($result){
+			$returnQuery = "
+						select count(*) as result
+						from user_details
+						where user_id = $uid
+						and preferred_time = '$time';
+						";
+			$returnResult = mysql_query($returnQuery);
+			if(!$returnResult)
+				die(mysql_error());
+			return $returnResult;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function checkUserPass($uid, $password){
+		$slt = $this->salt;
+		$returnQuery = "
+						select count(*) as result
+						from user_auth
+						where user_id = $uid
+						and password = SHA1(concat(MD5('$password'), '$slt'));
+						";
+		$returnResult = mysql_query($returnQuery);
+		if(!$returnResult)
+			die(mysql_error());
+		return $returnResult;
+	}
+
+	public function updateUserPass($uid, $password){
+		$slt = $this->salt;
+		$query = "
+				update user_auth
+				set password = SHA1(concat(MD5('$password'), '$slt'))
+				where user_id = $uid;
+				";
+		$result = mysql_query($query);
+		if($result){
+			$response = "1";
+			return $response;
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function addNewUser($email){
+		$slt = $this->salt;
+
+		$checkIfPresentQuery = "
+								select count(*) as result
+								from user_auth
+								where username = '$email';
+								";
+		$checkIfPresentQuery = mysql_query($checkIfPresentQuery);
+		if($checkIfPresentQuery){
+			$row = mysql_fetch_assoc($checkIfPresentQuery);
+			if($row['result'] > 0){
+				$response = "present";
+				return $response;
+			}
+		}else{
+			die(mysql_error());
+		}
+
+		$addInUsersQuery = "
+							insert into users
+							(date_of_join)
+							values(now());
+							";
+		$usersResult = mysql_query($addInUsersQuery);
+		if($usersResult){
+			$insertQuery = "
+							insert into user_auth
+							values((select max(user_id) from users), '$email', SHA1(concat(MD5('JS1&pass0'), '$slt')), 0);
+							";
+			$insertResult = mysql_query($insertQuery);
+			if($insertResult){
+				$getUserQuery = "
+								select count(*) as result
+								from user_auth
+								where user_id = (select max(user_id) from users)
+								and username = '$email';
+								";
+				$getResult = mysql_query($getUserQuery);
+				if(!$getResult)
+					die(mysql_error());
+				return $getResult;
+			}else{
+				die(mysql_error());
+			}
+		}else{
+			die(mysql_error());
+		}
+	}
+
+	public function checkForDefaultPass($uid){
+		$slt = $this->salt;
+		$query = "
+				select count(*) as result
+				from user_auth
+				where user_id = $uid
+				and password = SHA1(concat(MD5('JS1&pass0'), '$slt'));
 				";
 		$result = mysql_query($query);
 		if(!$result)

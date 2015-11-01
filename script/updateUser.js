@@ -51,6 +51,11 @@ var last_name = "";
 var city = "";
 var state = "";
 var country = "";
+var preferred_time = "";
+var cfirst_name = "";
+var cmiddle_name = "";
+var clast_name = "";
+var crelation = "";
 $(document).ready(function(){
     /*$("#login_submit").on('click', function(){
      var email=$("#email_id").val();
@@ -73,6 +78,11 @@ $(document).ready(function(){
             city = result.city;
             state = result.state;
             country = result.country;
+            preferred_time = result.preferred_time
+            if(!preferred_time){
+                preferred_time = "";
+            }
+
         }
     });
 
@@ -81,7 +91,7 @@ $(document).ready(function(){
     var childrenHtml = "";
     for(var i=0; i<family.length; i++){
         if(i==0){
-            childrenHtml = childrenHtml + "<br><br><hr><b>Select below to update your dependents</b><br><br>";
+            childrenHtml = childrenHtml + "<br><hr><br><b>Select your dependent to update their details</b><br><br>";
         }
         var child = family[i];
         var child_user_id = child.child_id;
@@ -92,8 +102,8 @@ $(document).ready(function(){
     }
     //alert(childrenHtml);
     var htmlString = "";
-    htmlString = htmlString +
-        "<ul>" +
+    //htmlString = htmlString +
+        /*"<ul>" +
         "<li>" +
         "<label>First Name</label>" +
     "<input type='text' id='first_name' placeholder=" + mySpaceFunction(first_name) + "  autofocus>" +
@@ -118,15 +128,47 @@ $(document).ready(function(){
     "<input type='text' id='country' placeholder=" + mySpaceFunction(country) + " ></li>" +
     "</li>" +
         "</ul>" +
-        "<input type='button' onclick='myUserUpdateFunction()' value='Update' id='update'>";
+        //"<input type='button' onclick='myUserUpdateFunction()' value='Update' id='update'>";
+            "<div>"+
+        "<button onclick='myUserUpdateFunction()' style='display: block'>Updte</button>" +
+            "</div>" +
+        "<div class='clear'></div>";*/
+    htmlString = htmlString +
+        "<table><tr>" +
+        "<td><b>First Name </b>: " + "</td><td><input type='text' id='first_name' placeholder=" + mySpaceFunction(first_name) + "  autofocus></td>" +
+        "<td><b>Middle Name </b>: " + "</td><td><input type='text' id='middle_name' placeholder=" + mySpaceFunction(middle_name) + "></td>" +
+        "<td><b>Last Name </b>: " + "</td><td><input type='text' id='last_name' placeholder=" + mySpaceFunction(last_name) +"></td></tr><tr>" +
+        "<td><b>City</b>: " + "</td><td><input type='text' id='city' placeholder=" + mySpaceFunction(city) +"></td>" +
+        "<td><b>State</b>: " + "</td><td><input type='text' id='state' placeholder=" + mySpaceFunction(state) +"></td>" +
+        "<td><b>Country</b>: " + "</td><td><input type='text' id='country' placeholder=" + mySpaceFunction(country) +"></td>" +
+        "</tr>" +
+        "</table>" +
+        "<br><button style='align-items: center' onclick='myUserUpdateFunction()'>Update</button>";
     $('#updateDetails').html(htmlString);
     $('#showChildren').html(childrenHtml);
 
 
-    var cfirst_name = "";
-    var cmiddle_name = "";
-    var clast_name = "";
-    var crelation = "";
+    //  ------------- TIME --------------
+    var prehtml = "<br><hr><br>Set/Change preferred time for your Baithak<br><br>" +
+        "<b>Time </b>: <input type='text' id='prefTime' placeholder=" + mySpaceFunction(preferred_time) + ">" +
+        "<button onclick='myTimeFunction()'>Set</button>";
+
+    $('#preferred_time').html(prehtml);
+
+
+    // -------------- PASSWORD ---------------
+    var passhtml = "";
+
+    $('#passbutton').on('click', function() {
+        passhtml = "<br>" +
+            "<b>Old Password</b> : <input type='password' id='oldpass'>" +
+            "<b>New Password</b> : <input type='password' id='newpass'>" +
+            "<b>Retype Password</b> : <input type='password' id='repass'>" +
+            "<br><br><button onclick='myUpdatePasswordFunction()'>Change Password</button>";
+        $('#passbutton').hide();
+        $('#changepass').html(passhtml);
+    });
+
     $('input[type="radio"]').on('click', function() {
         $('#updateChildren').hide();
         $('#successResult').hide();
@@ -149,7 +191,15 @@ $(document).ready(function(){
                     clast_name = childresult.last_name;
                     crelation = childresult.relation;
                     childHtml = childHtml +
-                        "<ul>" +
+                        "<table><tr>" +
+                        "<td><b>First Name </b>: " + "</td><td><input type='text' id='cfirst_name' placeholder=" + mySpaceFunction(cfirst_name) + "  autofocus></td>" +
+                        "<td><b>Middle Name </b>: " + "</td><td><input type='text' id='cmiddle_name' placeholder=" + mySpaceFunction(cmiddle_name) + "></td>" +
+                        "<td><b>Last Name </b>: " + "</td><td><input type='text' id='clast_name' placeholder=" + mySpaceFunction(clast_name) +"></td></tr><tr>" +
+                        "<td><b>Relation</b>: " + "</td><td><input type='text' id='relation' placeholder=" + mySpaceFunction(crelation) +"></td>" +
+                        "</tr>" +
+                        "</table>" +
+                        "<br><button style='align-items: center' onclick='myChildUpdateFunction()'>Update</button>";
+                        /*"<ul>" +
                         "<li>" +
                         "<label>First Name</label>" +
                         "<input type='text' id='cfirst_name' placeholder=" + mySpaceFunction(cfirst_name) + "  autofocus>" +
@@ -165,10 +215,10 @@ $(document).ready(function(){
                         "<label>Relation</label>" +
                         "<input type='text' id='relation' placeholder=" + mySpaceFunction(crelation) + " ></li>" +
                         "</li>" +
-                        "</ul>";
+                        "</ul>";*/
                 }
             });
-            childHtml = childHtml + "<br><br><div style='text-align: center'><input type='button' onclick='myChildUpdateFunction()' value='Update' id='childUpdate'></div>";
+            //childHtml = childHtml + "<br><br><div style='text-align: center'><input type='button' onclick='myChildUpdateFunction()' value='Update' id='childUpdate'></div>";
             $('#updateChildren').html(childHtml);
             $('#updateChildren').show();
         }
@@ -230,6 +280,7 @@ function myUserUpdateFunction(){
     });
     $('#successResult').html(successResult);
     $('#successResult').show();
+
 }
 
 function myChildUpdateFunction(){
@@ -276,6 +327,118 @@ function myChildUpdateFunction(){
     });
     $('#successResult').html(successResult);
     $('#successResult').show();
+}
+
+function myTimeFunction(){
+    var preTime = $("#prefTime").val();
+    if(preTime.length == 0){
+        preTime = preferred_time;
+    }
+
+    if(preTime.length == 0){
+        alert("Please provide preferred Baithak time (hr:min hr:min)");
+        return;
+    }
+
+    var preTimeSplitSpace = preTime.split(" ");
+    if(!preTimeSplitSpace[0] || !preTimeSplitSpace[1]){
+        alert("Please provide preferred time in proper format(hr:min hr:min), example --> (11:00 14:00)");
+        return;
+    }
+    var start = preTimeSplitSpace[0];
+    var end = preTimeSplitSpace[1];
+
+    var startColon = start.split(":");
+    var endColon = end.split(":");
+
+    if(!startColon[0] || !startColon[1] || !endColon[0] || !endColon[1]){
+        alert("Please provide preferred time in proper format(hr:min hr:min), example --> (11:00 14:00)");
+        return;
+    }
+
+    var shr = startColon[0];
+    var smin = startColon[1];
+    var ehr = endColon[0];
+    var emin = endColon[1];
+
+    var startdate = new Date();
+    var enddate = new Date();
+    startdate.setHours(shr, smin, "00");
+    enddate.setHours(ehr,emin, "00");
+
+    if(startdate.getTime() > enddate.getTime()){
+        alert("Please provide end time greater than start time");
+        return;
+    }
+    var timedate = "user_id=" + useruid + "&time=" + shr + ":" + smin + " " + ehr + ":" + emin;
+    //alert(timedate);
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3003/my_project/updatePreferredTime.php",
+        async: false,
+        data: timedate,
+        success: function(data){
+            alert(data);
+        }
+    });
+
+}
+
+function myUpdatePasswordFunction(){
+    var oldpass = $("#oldpass").val();
+    var newpass = $("#newpass").val();
+    var repass = $("#repass").val();
+
+    if(!oldpass){
+        alert("Please provide your current password");
+        return;
+    }else if(!newpass){
+        alert("Please provide new password");
+        return;
+    }else if(!repass){
+        alert("Please retype new password");
+        return;
+    }
+
+    if(newpass != repass){
+        alert("Retyped password doesn't match with new password, please try again");
+        return;
+    }
+    var oldmatched = "0";
+    var passdata = "user_id=" + useruid + "&password=" + oldpass;
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3003/my_project/checkpassprovided.php",
+        async: false,
+        data: passdata,
+        success: function(data){
+            //alert("data " + data);
+            if(data == "1"){
+                oldmatched = "1";
+            }
+        }
+    });
+
+    if(oldmatched == "0"){
+        alert("Current Password doesn't match with the password you provided");
+        return;
+    }
+    var updatedata = "user_id=" + useruid + "&password=" + newpass;
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3003/my_project/updateUserPassByUser.php",
+        async: false,
+        data: updatedata,
+        success: function(data){
+            //alert("data " + data);
+            if(data == "1"){
+                alert("Password updated successfully");
+            }else{
+                alert("Please try again");
+            }
+        }
+    });
+
 }
 
 function mySpaceFunction(abc){

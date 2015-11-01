@@ -34,7 +34,17 @@ $(document).ready(function(){
         if ($(this).is(':checked'))
         {
             var operation = $(this).val();
-            if(operation === "add"){
+            if(operation === "add_users"){
+                $('#return_result_div').hide();
+                var htmlString = "";
+                htmlString = "<hr>" +
+                    "<b>Please provide user or users with comma separated email ids</b><br><br>" +
+                    //"User(s) : <input type='text' id='newusers' placeholder='Provide 1 or less than 10 comma separated email ids'>" +
+                    "User(s) : <textarea id='newusers' rows ='6' cols='50' placeholder='Provide 1 or less than 50 comma(,) separated email ids'></textarea>" +
+                    "<br><button onclick='myNewUsersFunction()'>Add</button> ";
+                $('#operation_div').html(htmlString);
+            }
+            else if(operation === "add"){
                 $('#return_result_div').hide();
                 var htmlString = "";
                 htmlString = "<hr>" +
@@ -724,6 +734,60 @@ function deleteUser(){
     }
     $('#return_result_div').html(htmlresult);
     $('#return_result_div').show();
+}
+
+function myNewUsersFunction(){
+    var newusers = $("#newusers").val();
+    //alert(newusers);
+    if(!newusers || newusers.length == 0){
+        alert("Please provide atleast 1 email id to add");
+    }
+    var usersarray = newusers.split(",");
+    for(var i=0;i<usersarray.length;i++){
+        var user = usersarray[i];
+        user = user.trim();
+        if(user.indexOf(" ") != -1 || user.indexOf("@") == -1 || user.indexOf(".") == -1){
+            alert("Invalid email id provided - " + user);
+            return;
+        }
+    }
+    var added = new Array();
+    var notadded = new Array();
+    var alreadypresent = new Array();
+    for(var i=0;i<usersarray.length;i++){
+        var user = usersarray[i];
+        user = user.trim();
+        var newuserdata = "email=" + user;
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3003/my_project/addNewUser.php",
+            async: false,
+            data: newuserdata,
+            success: function (data) {
+                //alert(data);
+                if(data == "1"){
+                    added.push(user);
+                }else if(data = "present"){
+                    alreadypresent.push(user);
+                }else{
+                    notadded.push(user);
+                }
+            }
+        });
+    }
+
+    //alert(added.length + " " + notadded.length + " " + alreadypresent.length);
+
+    var htmlresult = "<hr><br><b>RESULT</b><br>";
+    htmlresult = htmlresult +
+        "<table><tr>" +
+        "<td align='left'>New users added :- " + "</td><td align='left'>" + added.toString() + "</td>" +
+        "<tr><td align='left'>Failed to add :- " + "</td><td align='left'>" + notadded.toString() + "</td></tr>" +
+        "<tr><td align='left'>Duplicate users :- " + "</td><td align='left'>" + alreadypresent.toString() + "</td></tr>";
+
+    $('#return_result_div').html(htmlresult);
+    $('#return_result_div').show();
+
 }
 
 function mySpaceFunction(abc){

@@ -12,8 +12,8 @@
 
 <body onload="startTime()">
 <hr>
-<!--<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>-->
-<h1><center><font size="8">Sample Project</font></center></h1>
+<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>
+<!--<h1><center><font size="8">Sample Project</font></center></h1>-->
 <hr>
 <strong>
 <span style="float: left;">
@@ -27,8 +27,8 @@
 </strong>
 <br>
 <div align="center">
-    <!--<font size="6" color="606860">FORGOT PASSWORD USA Baithak Upasthiti</font>-->
-    <font size="6" color="606860">Sample Login</font>
+    <font size="6" color="606860">RESET PASSWORD</font>
+    <!--<font size="6" color="606860">Sample Login</font>-->
 </div>
 
 <section class="loginform cf">

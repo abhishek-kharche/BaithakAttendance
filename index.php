@@ -18,8 +18,8 @@
 
 <body onload="startTime()">
 <hr>
-<!--<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>-->
-<h1><center><font size="8">Sample Project</font></center></h1>
+<h1><center><font size="8">|| Shree Ram Samarth ||</font></center></h1>
+<!--<h1><center><font size="8">Sample Project</font></center></h1>-->
 <hr>
 <strong>
 <span style="float: left;">
@@ -33,12 +33,13 @@
 </strong>
 <br>
 <div align="center">
-    <!--<font size="6" color="606860">INDEX USA Baithak Upasthiti</font>-->
-    <font size="6" color="606860">Sample Login</font>
+    <font size="6" color="606860">LOGIN</font>
+    <!--<font size="6" color="606860">Sample Login</font>-->
 </div>
 
 <section class="loginform cf">
     <form name="login" action="login.php" method="POST" accept-charset="utf-8">
+    <!--<form name="login" accept-charset="utf-8">-->
         <ul>
             <li>
                 <label for="usermail" >Email</label>

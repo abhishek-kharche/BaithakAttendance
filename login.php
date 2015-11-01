@@ -9,8 +9,10 @@
     require_once('Auth.php');
     $authObject = new Auth();
 
-    $email = $authObject->sanitizeString($_POST['usermail']);
-    $password = sha1(md5($authObject->sanitizeString($_POST['password'])).$authObject->salt);
+    //$email = $authObject->sanitizeString($_POST['usermail']);
+    //$password = sha1(md5($authObject->sanitizeString($_POST['password'])).$authObject->salt);
+    $email = $_POST['usermail'];
+    $password = sha1(md5($_POST['password']).$authObject->salt);
 //  echo $email." ".$password;
 //   sleep(1000);
     $result = $authObject->checkPassword($email,$password);
@@ -47,6 +49,7 @@
             $_SESSION["city"] = $userDetails['city'];
             $_SESSION["state"] = $userDetails['state'];
             $_SESSION["country"] = $userDetails['country'];
+            $_SESSION["preferred_time"] = $userDetails['preferred_time'];
             $_SESSION["children"] = json_encode($family);
             $_SESSION["user_type"] = $user_type;
 
@@ -58,6 +61,6 @@
         //echo "Incorrect username or password";
         echo "<script type='text/javascript'>alert('Incorrect username or password');</script>";
         //header("location:index.php");
-        print "<script type='text/javascript'>window.location='index.php';</script>";
+        //print "<script type='text/javascript'>window.location='index.php';</script>";
     }
 ?>

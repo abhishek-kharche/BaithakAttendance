@@ -47,7 +47,25 @@ $(document).ready(function(){
     /*$("#login_submit").on('click', function(){
         var email=$("#email_id").val();
         var password=$("#typed_password").val();
-        alert(email + " " + password);
+        //alert(email + " " + password);
+        var logindata = "email=" + email + "&password=" + password;
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:3003/my_project/validateLogin.php",
+            async: false,
+            data: logindata,
+            success: function (data) {
+                //alert(data);
+                if(data == "1"){
+                    window.location.href = "profile.php";
+                }else if(data = "2"){
+                    window.location.href = "register.php";
+                }else{
+                    window.location.href = "index.php";
+                }
+            }
+        });
     });*/
+
 });
 

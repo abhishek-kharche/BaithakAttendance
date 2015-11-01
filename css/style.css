@@ -61,7 +61,7 @@ h1{
 }
 
 .updateform{
-    width: 600px;
+    width: 800px;
     margin: 50px auto;
     padding: 25px;
     background-color: rgba(250,250,250,0.5);
@@ -158,7 +158,7 @@ h1{
 }
 
 .loginformprofile{
-    width: 610px;
+    width: 800px;
     margin: 50px auto;
     padding: 25px;
     background-color: rgba(250,250,250,0.5);
@@ -195,4 +195,8 @@ h1{
 }
 .boxed {
     border: 1px solid lightslategrey ;
+}
+
+.wrapper input [type=button]{
+    align-items: center;
 }

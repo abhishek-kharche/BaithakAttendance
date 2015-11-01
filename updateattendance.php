@@ -9,6 +9,7 @@
     $authObject = new Auth();
 
     $date = $_POST['date'];
+    $dates = explode(",",$date);
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
     $media = $_POST['media'];
@@ -24,20 +25,37 @@
         $child_count = $child_count + 1;
     }
     array_push($dependent, $_SESSION["user_id"]);
-print_r($dependent);
-    foreach($dependent as $id){
-        $result = $authObject->checkIfDatePresent($id, $date);
-        $rows = mysql_fetch_assoc($result);
-        $start = $date." ".$start_time;
-        $end = $date." ".$end_time;
-        if($rows['result'] == 0){
-            echo "insert";
-            $insert = $authObject->insertAttendance($id, $date, $start, $end, $media);
-        }else{
-            echo "update";
-            $update = $authObject->updateAttendance($id, $date, $start, $end, $media);
+//print_r($dependent);
+
+    $response = "0";
+    foreach($dates as $dt) {
+        foreach ($dependent as $id) {
+            $result = $authObject->checkIfDatePresent($id, $dt);
+            $rows = mysql_fetch_assoc($result);
+            $start = $dt . " " . $start_time;
+            $end = $dt . " " . $end_time;
+            $response = "1";
+            if ($rows['result'] == 0) {
+                //echo "insert";
+                $insert = $authObject->insertAttendance($id, $dt, $start, $end, $media);
+                if ($insert != "1") {
+                    $response = "0";
+                    break;
+                }
+            } else {
+                //echo "update";
+                $update = $authObject->updateAttendance($id, $dt, $start, $end, $media);
+                if ($update != "1") {
+                    $response = "0";
+                    break;
+                }
+            }
+        }
+        if($response == "0"){
+            break;
         }
     }
     $_SESSION["done"] = 1;
-    header("location:done.php");
+    //header("location:done.php");$
+    echo $response;
 ?>

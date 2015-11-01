@@ -4,9 +4,8 @@ if(!isset($_COOKIE['loggedin'])){
     header("location:index.php");
 }
 ?>
-
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <title>Shree Baithak Upasthiti</title>
 
 <head>
@@ -34,6 +33,9 @@ if(!isset($_COOKIE['loggedin'])){
     <font size="6" color="606860">Sample Login</font>
 </div>
 
+<div id="changePass"></div>
+
+
 <section class="loginform cf">
     <!--<form name="register">-->
         <ul>
@@ -59,13 +61,14 @@ if(!isset($_COOKIE['loggedin'])){
             <li>
                 <label>Country</label>
                 <input type="text" id="country" placeholder="Country" required></li>
-            </li>
-            <li>
-                <input type="submit" value="Register Me" id="submit">
-            </li>
+            <!--<li>
+                <input type="button" value="Register Me" id="submit">
+            </li>-->
         </ul>
     <!--</form>-->
+    <input type="button" value="Register Me" id="submit">
     <input type="button" value="Logout" onclick="document.location.href='logout.php'">
+    <div class="clear"</div>
 </section>
 
 <script src = "script/jquery-2.1.4.js"></script>
